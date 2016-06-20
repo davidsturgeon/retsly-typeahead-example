@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Retsly Page</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+  [ng-cloak] {
+    display:none;
+  }
+  .bg-danger {
+  	padding: 15px;
+  }
+</style>
+</head>
+<body ng-app="MyApp">
+	<main ng-controller="MainCtrl as main" class="container" ng-cloak>
+		
+		<h1>Rets.ly Residential Listings</h1>
+		<div class="row">
+			<div class="col-12-lg">
+				<p class="bg-danger" ng-show="main.listings.length == 0 && main.searchTerm.trim() !== '' && !main.loading">No listings found</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12-lg">
+				<p class="bg-danger" ng-show="main.error && main.searchTerm.trim() !== '' && !main.loading">An error occurred.</p>
+			</div>
+		</div>
+
+		<div class=" form-group input-group input-group-lg">
+		  <span class="input-group-addon glyphicon glyphicon-search" ></span>
+		  <input type="text" placeholder="Enter Address ex: 17263 Buena Vista Avenue, Sonoma, CA" ng-model="main.searchTerm" ng-model-options="{ debounce: 1000 }" ng-change="main.searchForListing()" class="form-control">
+		</div>
+		
+		<div class="listings">
+			<div ng-repeat="listing in main.listings">
+				<div class="media">
+				  <div class="media-left">
+				    <a href="#">
+				      <img class="media-object" ng-src="{{listing.media[0].url}}" alt="{{listing.address}} Photos" style="max-width: 64px;">
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading" ng-bind="listing.address"></h4>
+				    <p>{{listing.price | currency}}</p>
+				  </div>
+				</div>
+				
+			</div>
+		</div>
+
+		
+		
+	</main>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="/app/app.js"></script>
+	<script src="/app/controllers/mainController.js"></script>
+</body>
+</html>
